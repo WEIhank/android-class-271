@@ -18,6 +18,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         textView = (TextView)findViewById(R.id.textView);
         editText = (EditText)findViewById(R.id.editText);
         radioGroup = (RadioGroup)findViewById(R.id.radioGroup);
@@ -25,17 +26,20 @@ public class MainActivity extends ActionBarActivity {
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-            }
-        }
-
-    public void onCheckedChanged(RadioGroup group, int checkedId)() {
-                if (checkedId == R.id.maleRadioButton) {
+                if(checkedId == R.id.maleRadioButton)
+                {
                     sex = "male";
-                } else if (checkedId == R.id.femaleRadioButton) {
+                }
+                else if(checkedId == R.id.femaleRadioButton)
+                {
                     sex = "female";
                 }
-            });
+            }
+        });
+        editText.setOnKeyListener();
+
+    }
+
 
             public void submit(View view) {
                 String text = editText.getText().toString();
@@ -49,4 +53,3 @@ public class MainActivity extends ActionBarActivity {
 
 
 
-}
