@@ -27,7 +27,7 @@
         android:layout_below="@+id/radioGroup"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="@drawable/buttom" />
+        android:background="@drawable/images" />
 
     <EditText
         android:layout_width="match_parent"
@@ -49,15 +49,15 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="male"
             android:id="@+id/maleRadioButton"
-            android:checked="true" />
+            android:checked="true"
+            android:drawableRight="@drawable/male" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="female"
             android:id="@+id/femaleRadioButton"
-            android:checked="false" />
+            android:checked="false"
+            android:drawableRight="@drawable/female" />
     </RadioGroup>
 </RelativeLayout>
