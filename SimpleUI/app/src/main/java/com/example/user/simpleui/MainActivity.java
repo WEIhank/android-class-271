@@ -1,9 +1,11 @@
 package com.example.user.simpleui;
 
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -11,6 +13,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +27,7 @@ public class MainActivity extends ActionBarActivity {
 
         String drink = "black tea";
 
-        List<String> orders = new ArrayList<>();
+        List<Order> orders = new ArrayList<>();
         List<String> store = new ArrayList<>();
 
     @Override
@@ -32,7 +35,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textView = (TextView)findViewById(R.id.textView);
+        textView = (TextView)findViewById(R.id.storeinfoTextView);
         editText = (EditText)findViewById(R.id.editText);
         radioGroup = (RadioGroup)findViewById(R.id.radioGroup);
         listView = (ListView)findViewById(R.id.listView);
@@ -56,7 +59,14 @@ public class MainActivity extends ActionBarActivity {
                 return false;
             }
         });
-
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Order order = (Order)parent.getAdapter().getItem(position);
+               // Toast.makeText(MainActivity.this,"YOU Click on" + order.note, Toast.LENGTH_SHORT).show();
+                Snackbar.make(parent,"You click on" +order.note, Snackbar.LENGTH_INDEFINITE).show();
+            }
+        });
         setupListView();
         setupSpinner();
 
@@ -71,8 +81,9 @@ public class MainActivity extends ActionBarActivity {
     private void setupListView()
 
     {
-        String[] data = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13","14","15"};
-        ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, orders);
+//        String[] data = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13","14","15"};
+//        ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, orders);
+        OrderAdapter adapter = new OrderAdapter(this, orders);
         listView.setAdapter(adapter);
     }
 
@@ -80,13 +91,16 @@ public class MainActivity extends ActionBarActivity {
 
             public void submit(View view) {
                 String text = editText.getText().toString();
-                text = text + "order:" + drink;
-                textView.setText(text);
+                String result = text + "order:" + drink;
+                textView.setText(result);
                 editText.setText("");
 
-                orders.add(text);
-                store.add(text);
+                Order order = new Order();
+                order.note = text;
+                order.drink = drink;
+                order.storeInfo = (String)spinner.getSelectedItem();
 
+                orders.add(order);
                 setupListView();
 
             }
