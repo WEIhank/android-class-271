@@ -78,10 +78,12 @@ public class DrinkMenuActivty extends AppCompatActivity {
     public void done(View view){
         Intent intent = new Intent();
         setResult(RESULT_OK, intent);
+        finish();
     }
     public void CANCEL(View view){
         Intent intent = new Intent();
         setResult(RESULT_CANCELED,intent);
+        finish();
     }
 
 

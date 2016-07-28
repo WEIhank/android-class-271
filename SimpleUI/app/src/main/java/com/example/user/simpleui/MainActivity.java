@@ -5,6 +5,7 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -21,7 +22,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
         final static int REQUEST_CODE_DRINK_MENU_ACTIVITY = 0;
         TextView textView;
@@ -75,7 +76,7 @@ public class MainActivity extends ActionBarActivity {
         setupListView();
         setupSpinner();
 
-        Log.d("debug", "MainActivty OnCreate");
+        Log.d("debug", "MainActivity OnCreate");
 
     }
 
@@ -114,7 +115,7 @@ public class MainActivity extends ActionBarActivity {
     public  void goToMenu(View view)
     {
         Intent intent = new Intent();
-        intent.setClass(this,DrinkMenuActivty.class);
+        intent.setClass(this, DrinkMenuActivty.class);
         startActivityForResult(intent, REQUEST_CODE_DRINK_MENU_ACTIVITY);
     }
 
@@ -135,38 +136,38 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d("debug","MainActivty onStart");
+        Log.d("debug","MainActivity onStart");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("debug", "MainActivty onResume");
+        Log.d("debug", "MainActivity onResume");
 
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d("debug", "MainActivty onPause");
+        Log.d("debug", "MainActivity onPause");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d("debug", "MainActivty onStop");
+        Log.d("debug", "MainActivity onStop");
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.d("debug", "MainActivty onRestart");
+        Log.d("debug", "MainActivity onRestart");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d("debug", "MainActivty onDestory");
+        Log.d("debug", "MainActivity onDestroy");
     }
 }
 
