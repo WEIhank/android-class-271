@@ -1,6 +1,7 @@
 package com.example.user.simpleui;
 
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -21,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends ActionBarActivity {
+
+        final static int REQUEST_CODE_DRINK_MENU_ACTIVITY = 0;
         TextView textView;
         EditText editText;
         RadioGroup radioGroup;
@@ -72,7 +75,7 @@ public class MainActivity extends ActionBarActivity {
         setupListView();
         setupSpinner();
 
-        Log.d("debug","MainActivty OnCreate");
+        Log.d("debug", "MainActivty OnCreate");
 
     }
 
@@ -112,8 +115,22 @@ public class MainActivity extends ActionBarActivity {
     {
         Intent intent = new Intent();
         intent.setClass(this,DrinkMenuActivty.class);
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_CODE_DRINK_MENU_ACTIVITY);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode ==REQUEST_CODE_DRINK_MENU_ACTIVITY) {
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(this, "Done", Toast.LENGTH_LONG).show();
+            }else if(resultCode == RESULT_CANCELED){
+                Toast.makeText(this,"CANCEL",Toast.LENGTH_LONG).show();
+            }
+
+        }
+    }
+
 
     @Override
     protected void onStart() {
