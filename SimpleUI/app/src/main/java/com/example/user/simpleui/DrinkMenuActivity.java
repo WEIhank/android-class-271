@@ -94,7 +94,7 @@ public class DrinkMenuActivity extends AppCompatActivity implements DrinkOrderDi
 
         FragmentTransaction ft = fragmentManager.beginTransaction();
 
-        DrinkOrderDialog dialog = DrinkOrderDialog.newInstance();
+        DrinkOrderDialog dialog = DrinkOrderDialog.newInstance(drink);
         dialog.show(ft,"DrinkOrderDialog");
     }
 
