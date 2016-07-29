@@ -1,9 +1,7 @@
 package com.example.user.simpleui;
 
 import android.content.Intent;
-import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -115,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
     public  void goToMenu(View view)
     {
         Intent intent = new Intent();
-        intent.setClass(this, DrinkMenuActivty.class);
+        intent.setClass(this, DrinkMenuActivity.class);
         startActivityForResult(intent, REQUEST_CODE_DRINK_MENU_ACTIVITY);
     }
 
