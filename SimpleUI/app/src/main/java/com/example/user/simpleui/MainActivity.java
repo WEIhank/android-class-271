@@ -19,6 +19,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.parse.FindCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.SaveCallback;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                editor.putInt("spinner",spinner.getSelectedItemPosition());
+                editor.putInt("spinner", spinner.getSelectedItemPosition());
                 editor.apply();
             }
 
@@ -89,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Order order = (Order) parent.getAdapter().getItem(position);
                 // Toast.makeText(MainActivity.this,"YOU Click on" + order.note, Toast.LENGTH_SHORT).show();
-                Snackbar.make(parent, "You click on" + order.note, Snackbar.LENGTH_INDEFINITE).show();
+                Snackbar.make(parent, "You click on" + order.getNote(), Snackbar.LENGTH_INDEFINITE).show();
             }
         });
 
@@ -98,6 +107,30 @@ public class MainActivity extends AppCompatActivity {
         setupListView();
         setupSpinner();
         restoreUIState();
+//        final ParseObject parseObject = new ParseObject("TestObject");
+//        parseObject.put("foo", "bar");
+//        parseObject.saveInBackground(new SaveCallback() {
+//            @Override
+//            public void done(ParseException e) {
+//                if (e == null) {
+//                    Toast.makeText(MainActivity.this, "Success", Toast.LENGTH_LONG).show();
+//                } else {
+//                    e.printStackTrace();
+//                    Toast.makeText(MainActivity.this, "File", Toast.LENGTH_LONG).show();
+//                }
+//            }
+//        });
+
+//        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("TestObject");
+//        query.findInBackground(new FindCallback<ParseObject>() {
+//            @Override
+//            public void done(List<ParseObject> objects, ParseException e) {
+//                for ((ParseObject parseObject : objects)
+//                {
+//                    Toast.makeText(this,parseObject.getString("foo"),Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
 
 
         Log.d("debug", "MainActivity OnCreate");
@@ -115,6 +148,27 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item,data);
         spinner.setAdapter(adapter);
     }
+
+    private void setupOrderHistory()
+    {
+        String orderDatas = Utils.readFile(this, "history");
+        String[] orderData = orderDatas.split("\n");
+        Gson gson = new Gson();
+
+        for (String data:orderData)
+        {
+            try {
+                Order order = gson.fromJson(data, Order.class);
+                if (order !=null)
+                    orders.add(order);
+            }
+            catch (JsonSyntaxException e){
+                e.printStackTrace();
+            }
+
+            }
+        }
+
 
     private void setupListView()
 
@@ -134,13 +188,19 @@ public class MainActivity extends AppCompatActivity {
                 editText.setText("");
 
                 Order order = new Order();
-                order.note = text;
-                order.drinkOrders = drinkOrders;
-                order.storeInfo = (String)spinner.getSelectedItem();
+                order.setNote(text);
+                order.setDrinkOrders(drinkOrders);
+                order.setStoreInfo((String)spinner.getSelectedItem());
 
                 orders.add(order);
 
+                Gson gson = new Gson();
+                String orderData = gson.toJson(order);
+                Utils.writeFile(this,"history",orderData+"\n");
+
+
                 drinkOrders = new ArrayList<>();
+//                setupOrderHistory();
                 setupListView();
 
             }
