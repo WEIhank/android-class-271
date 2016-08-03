@@ -87,18 +87,17 @@ public class DrinkOrderDialog extends DialogFragment {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             View contect = getActivity().getLayoutInflater().inflate(R.layout.fragment_drink_order_dialog, null);
             builder.setView(contect)
-                    .setTitle(drinkOrder.drink.name)
+                    .setTitle(drinkOrder.getDrink().getName())
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            drinkOrder.lNuber = largeNuberPicker.getValue();
-                            drinkOrder.mNumber = mediumNumberPicker.getValue();
-                            drinkOrder.ice = getSeleectedItemFromRadioGroup(iceRadioGroup);
-                            drinkOrder.sugar = getSeleectedItemFromRadioGroup(sugarRadioGroup);
-                            drinkOrder.note = noteEditText.getText().toString();
+                            drinkOrder.setlNumber(largeNuberPicker.getValue());
+                            drinkOrder.setmNumber(mediumNumberPicker.getValue());
+                            drinkOrder.setIce(getSeleectedItemFromRadioGroup(iceRadioGroup));
+                            drinkOrder.setSugar(getSeleectedItemFromRadioGroup(sugarRadioGroup));
+                            drinkOrder.setNote(noteEditText.getText().toString());
 
-                            if (mListener !=null)
-                            {
+                            if (mListener != null) {
                                 mListener.OnDrinkOrderFinished(drinkOrder);
                             }
 
@@ -118,16 +117,16 @@ public class DrinkOrderDialog extends DialogFragment {
 
             mediumNumberPicker.setMaxValue(100);
             mediumNumberPicker.setMinValue(0);
-            mediumNumberPicker.setValue(drinkOrder.mNumber);
+            mediumNumberPicker.setValue(drinkOrder.getmNumber());
             largeNuberPicker.setMaxValue(100);
             largeNuberPicker.setMinValue(0);
-            largeNuberPicker.setValue(drinkOrder.lNuber);
+            largeNuberPicker.setValue(drinkOrder.getlNumber());
 
-            noteEditText.setText(drinkOrder.note);
+            noteEditText.setText(drinkOrder.getNote());
 
-            setSelectedItemInRadioGroup(drinkOrder.ice,iceRadioGroup);
+            setSelectedItemInRadioGroup(drinkOrder.getIce(),iceRadioGroup);
 
-            setSelectedItemInRadioGroup(drinkOrder.sugar,sugarRadioGroup);
+            setSelectedItemInRadioGroup(drinkOrder.getSugar(),sugarRadioGroup);
 
             return builder.create();
             }
