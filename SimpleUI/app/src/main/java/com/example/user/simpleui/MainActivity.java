@@ -104,9 +104,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        setupListView();
+//        setupListView();
         setupSpinner();
         restoreUIState();
+        setupOrderHistory();
 //        final ParseObject parseObject = new ParseObject("TestObject");
 //        parseObject.put("foo", "bar");
 //        parseObject.saveInBackground(new SaveCallback() {
@@ -151,22 +152,33 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupOrderHistory()
     {
-        String orderDatas = Utils.readFile(this, "history");
-        String[] orderData = orderDatas.split("\n");
-        Gson gson = new Gson();
+//        String orderDatas = Utils.readFile(this, "history");
+//        String[] orderData = orderDatas.split("\n");
+//        Gson gson = new Gson();
+//
+//        for (String data:orderData)
+//        {
+//            try {
+//                Order order = gson.fromJson(data, Order.class);
+//                if (order !=null)
+//                    orders.add(order);
+//            }
+//            catch (JsonSyntaxException e){
+//                e.printStackTrace();
+//            }
+//
+//            }
+            Order.getOrdersFromLocalThenRemote(new FindCallback<Order>() {
+                @Override
+                public void done(List<Order> objects, ParseException e) {
+                    if(e == null)
+                    {
+                       orders = objects;
+                        setupListView();
 
-        for (String data:orderData)
-        {
-            try {
-                Order order = gson.fromJson(data, Order.class);
-                if (order !=null)
-                    orders.add(order);
-            }
-            catch (JsonSyntaxException e){
-                e.printStackTrace();
-            }
-
-            }
+                    }
+                }
+            });
         }
 
 
@@ -194,9 +206,12 @@ public class MainActivity extends AppCompatActivity {
 
                 orders.add(order);
 
-                Gson gson = new Gson();
-                String orderData = gson.toJson(order);
-                Utils.writeFile(this,"history",orderData+"\n");
+//                Gson gson = new Gson();
+//                String orderData = gson.toJson(order);
+//                Utils.writeFile(this,"history",orderData+"\n");
+                order.saveEventually();
+                order.pinInBackground("Order");
+                orders.add(order);
 
 
                 drinkOrders = new ArrayList<>();
